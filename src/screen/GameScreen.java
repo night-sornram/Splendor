@@ -24,6 +24,7 @@ public class GameScreen extends VBox {
         this.stage.setScene(scene);
         canvas = new Canvas(Property.WIDTH,Property.HEIGHT);
         gc = canvas.getGraphicsContext2D();
+        System.out.println(Property.NUMBER_OF_PLAYER);
         setUp();
 
     }

@@ -50,19 +50,23 @@ public class StartScreen {
         menu.player2.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                Property.NUMBER_OF_PLAYER = 2;
                 GameScreen gameScreen = new GameScreen(stage,2);
             }
         });
         menu.player3.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                Property.NUMBER_OF_PLAYER = 3;
                 GameScreen gameScreen = new GameScreen(stage,3);
             }
         });
         menu.player4.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                GameScreen gameScreen = new GameScreen(stage,3);
+                Property.NUMBER_OF_PLAYER = 4;
+                GameScreen gameScreen = new GameScreen(stage,4);
+
             }
         });
         setBackground();
