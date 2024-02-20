@@ -12,9 +12,8 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage stage)  {
-        Scene scene = new Scene(StartScreen.getStartScreen(),1280,720);
-        stage.setScene(scene);
+    public void start(Stage stage) {
+        StartScreen start = new StartScreen(stage);
         stage.setTitle("Splendor");
         stage.setResizable(false);
         stage.show();

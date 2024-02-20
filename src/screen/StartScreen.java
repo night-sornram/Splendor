@@ -1,74 +1,76 @@
 package screen;
 
-import javafx.application.Platform;
+import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import utils.BackGroundImage;
+import javafx.stage.Stage;
+import javafx.scene.image.Image;
+import utils.Property;
 
-import java.util.Collections;
+import java.awt.*;
 
-public class StartScreen extends VBox {
-    private static StartScreen instance;
+public class StartScreen {
+    private static StackPane root;
+    private Canvas canvas;
+    private GraphicsContext gc;
+    public ButtonStart menu;
+    private Stage stage;
+    private AnimationTimer startScreenSong;
 
-    private StartScreen() {
-        BackGroundImage backGroundImage = new BackGroundImage("bgStart.jpg");
-        setBackground(backGroundImage.setBackGroundImage());
-        setSpacing(16);
-        setAlignment(Pos.CENTER);
-        Button start = new Button("Start");
-        Button quit = new Button("Quit");
-        start.setFont(Font.font(36));
-        quit.setFont(Font.font(36));
-        quit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+    public StartScreen(Stage stage) {
+        this.stage = stage;
+        canvas = new Canvas(Property.WIDTH,Property.HEIGHT);
+        gc = canvas.getGraphicsContext2D();
+        menu = new ButtonStart();
+        setUp();
+    }
+    public void draw(GraphicsContext gc) {
+        root = new StackPane();
+        root.setPrefSize(Property.WIDTH,Property.HEIGHT);
+        root.getChildren().addAll(canvas);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("Splendor");
+        stage.setResizable(false);
+        root.getChildren().addAll(menu);
+    }
+    public void setBackground() {
+        Image image = new Image(ClassLoader.getSystemResource("picture/bgStart.jpg").toString());
+        gc.drawImage(image,0, 0, Property.WIDTH,Property.HEIGHT);
+        gc.setFill(Color.BLACK);
+        draw(gc);
+    }
+    public void setUp() {
+        menu.player2.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                Platform.exit();
+                GameScreen gameScreen = new GameScreen(stage,2);
             }
         });
-        start.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        menu.player3.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                selectPlayer();
+                GameScreen gameScreen = new GameScreen(stage,3);
             }
         });
-        getChildren().addAll(start, quit);
-
-    }
-
-    public static StartScreen getStartScreen() {
-        if (instance == null)
-            instance = new StartScreen();
-        return instance;
-    }
-
-    public void selectPlayer() {
-        getChildren().clear();
-        getChildren().addAll(selectButton("2Player",2),selectButton("3Player",3),selectButton("4Player",4));
-
-    }
-
-    public Button selectButton(String text, int player) {
-        Button button = new Button(text);
-        button.setFont(Font.font(36));
-        /////////Edit in Gae Logic //////////
-        /*
-        setGameStart = true
-        setPlayer = player(int)
-         */
-        button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        menu.player4.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                System.out.println(player);
+                GameScreen gameScreen = new GameScreen(stage,3);
             }
         });
-
-        return button;
+        setBackground();
     }
+
+    public static StackPane getRoot() {
+        return root;
+    }
+
+
 }
